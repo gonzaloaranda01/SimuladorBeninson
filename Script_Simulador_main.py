@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import FuncionesSimulador as func
+import funciones.FuncionesSimulador as func
 import matplotlib as plt
 import matplotlib.pyplot as plt
 import time
