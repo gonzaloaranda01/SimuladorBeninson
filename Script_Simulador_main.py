@@ -5,7 +5,7 @@ from funciones.funciones_signal import func_CreateAmpDistribution
 import matplotlib as plt
 import matplotlib.pyplot as plt
 import time
-import yaml
+#import yaml
 
 #--------------------------------------------------------------------------
 #                                                                         %

@@ -26,9 +26,9 @@ import numpy as np    # Manejo con arrays
 import scipy
 from scipy.stats import norm
 from scipy.signal import lfilter
-from funciones_signal import *
+#from funciones_signal import *
 #from funciones_signal import signal
-
+import funciones_signal as signal
 # -------------------------------------------------------------------------
 
 # -------------------------------------------------------------------------
@@ -53,29 +53,29 @@ def func_Simulator(StructConfiguration):
 
    
     # GENERACION DE PULSO TIPICO
-    [ Pulse , t_pulse ] = func_CreatePulse(cfg_Ts,cfg_Tau,cfg_Stages)
+    [ Pulse , t_pulse ] = signal.func_CreatePulse(cfg_Ts,cfg_Tau,cfg_Stages)
     # GENERACION DE TIEMPOS DE EVENTOS  
-    [ VecEventTime , t_abs ] = func_CreateEventTime(cfg_Rin,cfg_Tmed,cfg_Ts,cfg_TimeRandomness)
+    [ VecEventTime , t_abs ] = signal.func_CreateEventTime(cfg_Rin,cfg_Tmed,cfg_Ts,cfg_TimeRandomness)
     # GENERACION DE AMPLITUDES
     NumEvents =  sum(VecEventTime)
-    VecEventAmp = func_CreateEventAmp( NumEvents , f_x , x )
+    VecEventAmp = signal.func_CreateEventAmp( NumEvents , f_x , x )
     # CALCULO EL HISTOGRAMA DE ENERGIA IDEAL
     IdealSpectrum, _ = np.histogram(VecEventAmp, bins=x)
     IdealSpectrum = np.concatenate([IdealSpectrum, [0.0]])
     #IdealSpectrum = np.concatenate(IdealSpectrum,[0.0])
     # MODULACION DE AMPLITUDES DE EVENTOS
-    VecEventTimeAmp= func_ModulateEvent(VecEventTime,VecEventAmp)
+    VecEventTimeAmp= signal.func_ModulateEvent(VecEventTime,VecEventAmp)
     # GENERACION SEÑAL ANALOGICA LIMPIA
-    y_t   = func_CreateAnalogSignal(Pulse,VecEventTimeAmp)
+    y_t   = signal.func_CreateAnalogSignal(Pulse,VecEventTimeAmp)
     # GENERACION SEÑAL DE RUIDO
     N = len(VecEventTimeAmp) 
-    n_t   = func_CreateNoiseSignal( Pulse , cfg_SNR , cfg_SNR_AmplitudeReference , N)
+    n_t   = signal.func_CreateNoiseSignal( Pulse , cfg_SNR , cfg_SNR_AmplitudeReference , N)
     # CONTAMINO CON RUIDO LA SEÑAL ANALOGICA
     y_analog = y_t + n_t 
     # SIMULACION DE SATURACION DE AMP FUERA DE RANGO LINEAL
-    y_Amp = func_Amp(y_analog,cfg_Amp_Gain,cfg_Amp_Vmax,cfg_Amp_Vmin)
+    y_Amp = signal.func_Amp(y_analog,cfg_Amp_Gain,cfg_Amp_Vmax,cfg_Amp_Vmin)
     # ADQUISICION DE SEÑAL (ADC)
-    y_q = func_SignalAdquired(y_Amp,cfg_ADC_Nbits,cfg_ADC_Vref)
+    y_q = signal.func_SignalAdquired(y_Amp,cfg_ADC_Nbits,cfg_ADC_Vref)
     
     return Pulse, t_pulse, IdealSpectrum, t_abs, VecEventTime, VecEventAmp, \
         VecEventTimeAmp, y_t, n_t, y_analog, y_Amp, y_q
