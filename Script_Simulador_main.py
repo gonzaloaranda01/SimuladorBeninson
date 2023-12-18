@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import funciones.FuncionesSimulador as func
+from funciones.funciones_signal import func_CreateAmpDistribution
 import matplotlib as plt
 import matplotlib.pyplot as plt
 import time
@@ -9,14 +10,10 @@ import yaml
 #--------------------------------------------------------------------------
 #                                                                         %
 #             COMISION NACIONAL DE ENERGIA ATOMICA (CNEA)                 %
-#                   CENTRO ATOMICO EZEIZA (CAE)                           %
-#                                                                         %
-#                 Instrumentacion y Control (IyC)                         %
-#     Programa Nacional de Gestion de Residuos Radioactivos (PNGRR)       %
 #                                                                         %
 #--------------------------------------------------------------------------
 #                                                                         %
-#  Autor: Gonzalo Aranda                                     %
+#  Autor: Gonzalo Aranda                                                  %
 #  Fecha: 11/12/2023                                                      %
 #                                                                         %
 #--------------------------------------------------------------------------
@@ -172,7 +169,7 @@ Tmed = StructConfiguration['cfg_Tmed']
 Amp_FotoPico = StructConfiguration['cfg_Amp_FotoPico'] 
 DetectorResolution = StructConfiguration['cfg_DetectorResolution']
 
-[ f_x , x ]= func.func_CreateAmpDistribution(AmpRandomness,DetectorResolution,Amp_FotoPico)
+[ f_x , x ]= func_CreateAmpDistribution(AmpRandomness,DetectorResolution,Amp_FotoPico)
 
 # Visualización del espectro de entrada
 
