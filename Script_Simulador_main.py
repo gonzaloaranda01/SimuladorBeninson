@@ -1,22 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import funciones.FuncionesSimulador as func
 import matplotlib as plt
 import matplotlib.pyplot as plt
 import time
-import yaml
+#import yaml
+
+#PYTHONPATH=funciones/ python Script_Simulador_main.py
+from funciones.FuncionesSimulador import func_Simulator
+from funciones.funciones_signal import func_CreateAmpDistribution
+
 
 #--------------------------------------------------------------------------
 #                                                                         %
 #             COMISION NACIONAL DE ENERGIA ATOMICA (CNEA)                 %
-#                   CENTRO ATOMICO EZEIZA (CAE)                           %
-#                                                                         %
-#                 Instrumentacion y Control (IyC)                         %
-#     Programa Nacional de Gestion de Residuos Radioactivos (PNGRR)       %
 #                                                                         %
 #--------------------------------------------------------------------------
 #                                                                         %
-#  Autor: Gonzalo Aranda                                     %
+#  Autor: Gonzalo Aranda                                                  %
 #  Fecha: 11/12/2023                                                      %
 #                                                                         %
 #--------------------------------------------------------------------------
@@ -172,7 +172,7 @@ Tmed = StructConfiguration['cfg_Tmed']
 Amp_FotoPico = StructConfiguration['cfg_Amp_FotoPico'] 
 DetectorResolution = StructConfiguration['cfg_DetectorResolution']
 
-[ f_x , x ]= func.func_CreateAmpDistribution(AmpRandomness,DetectorResolution,Amp_FotoPico)
+[ f_x , x ]= func_CreateAmpDistribution(AmpRandomness,DetectorResolution,Amp_FotoPico)
 
 # Visualización del espectro de entrada
 
@@ -182,7 +182,7 @@ plt.title('MCA Entrada')
 plt.xlabel('Canales')
 plt.ylabel('Cuentas')
 plt.grid()
-plt.show()
+plt.show(block=False)
 
 # Configuración de la estructura StructConfiguration
 StructConfiguration['f_x'] = f_x  # probabilidad
@@ -200,7 +200,7 @@ print('--------------------- Inicio Simulador ----------------------')
 # Medir el tiempo de ejecución
 start_time = time.time()
 # Llamada a la función func_Simulator
-resultados = func.func_Simulator(StructConfiguration)
+resultados = func_Simulator(StructConfiguration)
 # Calcular el tiempo transcurrido
 time_lapse = time.time() - start_time
 # Desempaquetar los resultados si es necesario
@@ -222,7 +222,7 @@ plt.title(titulo)
 plt.xlabel('time [us]')
 plt.ylabel('Amplitud normalizada')
 plt.grid()
-plt.show()
+plt.show(block=False)
 
 #--------------
 # Espectro Ideal
@@ -232,14 +232,14 @@ plt.plot(x, IdealSpectrum)
 plt.title('Espectro de Amplitudes Ideal')
 plt.xlabel('canales')
 plt.grid()
-plt.show()
+plt.show(block=False)
 
 
 # Gráficos y resultados de simulación
 # Signals
 FS= 6
-fig, axs = plt.subplots(6, 1, sharex=True, figsize=(8, 10))
 
+fig, axs = plt.subplots(6, 1, sharex=True, figsize=(8, 10))
 # Subplot 1: Event Time
 axs[0].stem(t_abs/us, VecEventTime, linefmt='.-', basefmt=" ", markerfmt='.')
 axs[0].set_ylabel('Event Time',fontsize=FS)
